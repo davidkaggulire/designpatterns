@@ -4,6 +4,7 @@ import os
 import json
 from abc import ABC, abstractmethod
 
+
 class IDatabase(ABC):
 
     @abstractmethod
@@ -37,14 +38,13 @@ class DatabaseProvider(IDatabase):
     def __init__(self, boolean=True, status=""):
         self.boolean = boolean
         self.status = status
-        __instance = self
-    
+
     def create(self, location, data):
         """create files"""
         try:
-            with open(location, 'w') as file_object:            
+            with open(location, 'w') as file_object:
                 json.dump(data, file_object)
-                self.status = "Create operation successful" 
+                self.status = "Create operation successful"
         except Exception:
             self.status = "Create operation failed"
             self.boolean = False
@@ -65,7 +65,7 @@ class DatabaseProvider(IDatabase):
             self.boolean = False
             results["output"] = ""
 
-        read_result =  (self.boolean, self.status, results)
+        read_result = (self.boolean, self.status, results)
         return read_result
 
     def update(self, location, data):
@@ -78,8 +78,8 @@ class DatabaseProvider(IDatabase):
         except Exception:
             self.status = "Update operation failed"
             self.boolean = False
-        
-        update_result =  (self.boolean, self.status)
+
+        update_result = (self.boolean, self.status)
         return update_result
 
     def delete(self, location):
@@ -90,6 +90,6 @@ class DatabaseProvider(IDatabase):
         else:
             self.status = "File not found"
             self.boolean = False
-        
-        delete_output = (self.boolean, self.status) 
+
+        delete_output = (self.boolean, self.status)
         return delete_output
