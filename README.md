@@ -24,7 +24,7 @@ Open the terminal and type in the command below to run tests on the program.
 
 Determine the percentage of code tested.
 
-coverage run -m unittest discover -s tests
+`coverage run -m unittest discover -s tests`
 
 # Print / Output test coverage report
 
