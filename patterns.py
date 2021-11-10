@@ -30,19 +30,15 @@ class DatabaseProvider(IDatabase):
 
     @staticmethod
     def get_instance():
-        if DatabaseProvider.__instance == None:
-            DatabaseProvider()
+        if DatabaseProvider.__instance is None:
+            return DatabaseProvider()
         return DatabaseProvider.__instance
 
     def __init__(self, boolean=True, status=""):
         self.boolean = boolean
         self.status = status
-
-        if DatabaseProvider.__instance != None:
-            raise Exception("Singleton cannot be instantiated more than once")
-        else:            
-            DatabaseProvider.__instance = self
-
+        __instance = self
+    
     def create(self, location, data):
         """create files"""
         try:
@@ -65,12 +61,11 @@ class DatabaseProvider(IDatabase):
                 results["output"] = file_data
                 self.status = "Successfully read"
         except Exception:
-            self.status = "Create operation failed"
+            self.status = "Read operation failed"
             self.boolean = False
             results["output"] = ""
 
         read_result =  (self.boolean, self.status, results)
-        print(read_result)
         return read_result
 
     def update(self, location, data):
@@ -95,31 +90,6 @@ class DatabaseProvider(IDatabase):
         else:
             self.status = "File not found"
             self.boolean = False
-            print("The file does not exist")
         
         delete_output = (self.boolean, self.status) 
         return delete_output
-
-
-
-data_dict = {
-    "location": "Kampala",
-    "weather": "cloudy"
-}
-
-data_dict2 = {
-    "location": "Wakiso",
-    "weather": "sunny"
-}
-
-p = DatabaseProvider()
-p.create("result.json", data_dict)
-
-# p.read("result.json")
-
-# p.update("result.json", data_dict2)
-
-# p.delete("result.json")
-
-
-
