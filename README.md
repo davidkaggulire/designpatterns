@@ -1,4 +1,5 @@
 [![build](https://github.com/davidkaggulire/designpatterns/actions/workflows/integrations.yml/badge.svg)](https://github.com/davidkaggulire/designpatterns/actions/workflows/integrations.yml)
+[![codecov](https://codecov.io/gh/davidkaggulire/designpatterns/branch/main/graph/badge.svg?token=2O2F4RR1LD)](https://codecov.io/gh/davidkaggulire/designpatterns)
 
 # designpatterns
 Project to explore various design patterns i.e Singleton, Factory design pattern, Dependency injection and Interfaces using a file system provider
