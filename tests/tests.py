@@ -47,13 +47,14 @@ class TestFileProvider(unittest.TestCase):
 
         self.assertEqual(expected_output, actual_output)
 
-    @patch(
-        "builtins.open",
-        new_callable=mock_open,
-        read_data=json.dumps({'district': 'Kampala', 'weather': "sunny"}))
-    def test_create_fail(self, mock_file):
-        """success test for create operation"""
-        pass
+    def test_create_fail(self):
+        """test fail for create operation"""
+        # providing non existent path
+        file_path = '/home/travis/build/webscraper/companies.txt'
+        file_data = {'district': 'Kampala', 'weather': "sunny"}
+        expected_output = (False, "Create operation failed")
+        actual_output = self.db.create(file_path, file_data)
+        self.assertEqual(expected_output, actual_output)
 
     @patch(
         "builtins.open",
@@ -89,6 +90,14 @@ class TestFileProvider(unittest.TestCase):
         actual_output = self.db.update(filename, file_data)
 
         mock_file.assert_called_with(filename, 'w')
+        self.assertEqual(expected_output, actual_output)
+
+    def test_fail_update(self):
+        """test fail for update operation"""
+        file_path = '/home/travis/build/davidkaggulire/companies.txt'
+        file_data = {'district': 'Kampala', 'weather': "sunny"}
+        expected_output = (False, "Update operation failed")
+        actual_output = self.db.update(file_path, file_data)
         self.assertEqual(expected_output, actual_output)
 
     def test_delete_nonexistent(self):
