@@ -3,123 +3,99 @@
 import os
 import sys
 import unittest
-import json
 
 
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 sys.path.append(os.path.dirname(SCRIPT_DIR))
 
-from unittest.mock import patch, mock_open
-from patterns import DatabaseProvider
+from patterns import FileSystemDatabase, InMemoryDatabase, PhoneBookSystem
 
 
 class TestFileProvider(unittest.TestCase):
 
     def setUp(self) -> None:
-        self.db = DatabaseProvider()
+        database_service = InMemoryDatabase()
+        # database_service = FileSystemDatabase()
+        self.phone_book_system = PhoneBookSystem(database_service)
+        self.phone_book_system.setUpSystem()
         return super().setUp()
 
-    def test_init(self):
-        self.assertTrue(self.db.boolean)
-        self.assertEqual(self.db.status, "")
+    def test_create_contact(self):
+        name = "David"
+        phone = "0787870099"
+        data = {"name": name, "phone": phone}
+        output = self.phone_book_system.createContact(data)
+        expected = (True, 'Contact created successfully')
+        self.assertEqual(output, expected)
 
-    def test_singleton(self):
-        """testing singleton pattern"""
-        p1 = self.db.get_instance
-        p2 = self.db.get_instance
-        self.assertEqual(p1, p2)
-        self.assertIsNotNone(p1)
+    def test_fail_create(self):
+        name = "David"
+        phone = "/home/build/companies.txt"
+        data = {"name": name, "phone": phone}
+        self.phone_book_system.createContact(data)
+        output = self.phone_book_system.createContact(data)
+        reason = "failed to create contact"
+        expected = (False, reason)
+        self.assertEqual(output, expected)
 
-    @patch(
-        "builtins.open",
-        new_callable=mock_open,
-        read_data=json.dumps({'district': 'Kampala', 'weather': "sunny"}))
-    def test_create_success(self, mock_file):
-        """success test for create operation"""
-        file_data = {
-                    'district': 'Kampala',
-                    'weather': "sunny",
-                    }
-        expected_output = (True, "Create operation successful")
-        filename = 'example.json'
-        actual_output = self.db.create(filename, file_data)
-        mock_file.assert_called_with(filename, 'w')
+    def test_read_contact(self):
+        name = "David"
+        phone = "0787870099"
+        data = {"name": name, "phone": phone}
+        self.phone_book_system.createContact(data)
+        output = self.phone_book_system.read_contact(data)
+        expected = (True, 'Contact read successfully', data)
+        self.assertEqual(output, expected)
 
-        self.assertEqual(expected_output, actual_output)
+    def test_fail_read_contact(self):
+        name = "David"
+        phone = "0787870099"
+        phone2 = "07909087877"
+        data = {"name": name, "phone": phone}
+        data2 = {"name": name, "phone": phone2}
+        self.phone_book_system.createContact(data)
+        output = self.phone_book_system.read_contact(data2)
+        expected = (False, 'failed to read contact', "")
+        self.assertEqual(output, expected)
 
-    def test_create_fail(self):
-        """test fail for create operation"""
-        # providing non existent path
-        file_path = '/home/travis/build/webscraper/companies.txt'
-        file_data = {'district': 'Kampala', 'weather': "sunny"}
-        expected_output = (False, "Create operation failed")
-        actual_output = self.db.create(file_path, file_data)
-        self.assertEqual(expected_output, actual_output)
+    def test_update_contact(self):
+        name = "David"
+        phone = "0787870099"
+        data = {"name": name, "phone": phone}
+        self.phone_book_system.createContact(data)
+        output = self.phone_book_system.update_contact(data)
+        expected = (True, 'Contact updated successfully')
+        self.assertEqual(output, expected)
 
-    @patch(
-        "builtins.open",
-        new_callable=mock_open,
-        read_data=json.dumps({'district': 'Kampala', 'weather': "sunny"}))
-    def test_read_data_success(self, mock_file):
-        """success test for read operation"""
-        file_data = {'district': 'Kampala', 'weather': "sunny"}
-        expected_output = (True, "Successfully read", {"output": file_data})
-        filename = 'example.json'
-        actual_output = self.db.read(filename)
+    def test_fail_update_contact(self):
+        name = "David"
+        phone = "0787870099"
+        phone2 = "0790909456"
+        data = {"name": name, "phone": phone}
+        data2 = {"name": name, "phone": phone2}
+        self.phone_book_system.createContact(data)
+        output = self.phone_book_system.update_contact(data2)
+        reason = "failed to update contact"
+        expected = (False, reason)
+        self.assertEqual(output, expected)
 
-        mock_file.assert_called_with(filename)
-        self.assertEqual(expected_output, actual_output)
+    def test_delete_contact(self):
+        name = "David"
+        phone = "0787870098"
+        data = {"name": name, "phone": phone}
+        self.phone_book_system.createContact(data)
+        output = self.phone_book_system.delete_contact(data)
+        expected = (True, 'Contact deleted successfully')
+        self.assertEqual(output, expected)
 
-    def test_read_data_fail(self):
-        """fail test for read operation"""
-        expected_output = (False, "Read operation failed", {"output": ""})
-        filename = 'read.json'
-        actual_output = self.db.read(filename)
-
-        self.assertEqual(expected_output, actual_output)
-
-    @patch(
-        "builtins.open",
-        new_callable=mock_open,
-        read_data=json.dumps({'district': 'Kampala', 'weather': "sunny"}))
-    def test_update_success(self, mock_file):
-        """test successful update"""
-        file_data = {'district': 'Kampala', 'weather': "sunny"}
-        expected_output = (True, "Successfully updated")
-        filename = 'example.json'
-        actual_output = self.db.update(filename, file_data)
-
-        mock_file.assert_called_with(filename, 'w')
-        self.assertEqual(expected_output, actual_output)
-
-    def test_fail_update(self):
-        """test fail for update operation"""
-        file_path = '/home/travis/build/davidkaggulire/companies.txt'
-        file_data = {'district': 'Kampala', 'weather': "sunny"}
-        expected_output = (False, "Update operation failed")
-        actual_output = self.db.update(file_path, file_data)
-        self.assertEqual(expected_output, actual_output)
-
-    def test_delete_nonexistent(self):
-        """test deleting file which does not exist"""
-
-        filename = 'example2.json'
-        expected_output = (False, "File not found")
-
-        actual_output = self.db.delete(filename)
-        self.assertEqual(expected_output, actual_output)
-
-    def test_remove_file(self):
-        """test to delete file if it exists"""
-        filename = 'example3.json'
-        file_data = {'district': 'Kampala', 'weather': "sunny"}
-        expected_output = (True, "Successfully deleted")
-
-        self.db.create(filename, file_data)
-        with patch('os.remove'):
-            actual_output = self.db.delete(filename)
-            self.assertEqual(expected_output, actual_output)
+    def test_delete_nonexistent_contact(self):
+        name = "David"
+        phone = "0789909878"
+        data = {"name": name, "phone": phone}
+        output = self.phone_book_system.delete_contact(data)
+        expected = (False, 'failed to delete contact')
+        self.assertEqual(output, expected)
 
     def tearDown(self) -> None:
-        del self.db
+        self.phone_book_system.tearDownSystem()
         return super().tearDown()
