@@ -12,17 +12,15 @@ from database import FileSystemDatabase, InMemoryDatabase, MongoNoSQLDatabase
 from phone_book import PhoneBookSystem
 
 
-class TestPhoneBookSystem(unittest.TestCase):
+class TestFileProvider(unittest.TestCase):
 
     def setUp(self) -> None:
-        database_service = self.getDatabaseService()
+        database_service = InMemoryDatabase()
+        # database_service = FileSystemDatabase()
+        # database_service = MongoNoSQLDatabase()
         self.phone_book_system = PhoneBookSystem(database_service)
         self.phone_book_system.setUpSystem()
         return super().setUp()
-
-    def getDatabaseService(self):
-        # raise NotImplementedError("Child class is not supplying db")
-        return InMemoryDatabase()
 
     def test_create_contact(self):
         name = "David"
@@ -103,26 +101,3 @@ class TestPhoneBookSystem(unittest.TestCase):
     def tearDown(self) -> None:
         self.phone_book_system.tearDownSystem()
         return super().tearDown()
-
-# class TestInMemoryProvider(PhoneBookSystem):
-
-#     def getDatabaseService(self) -> None:
-#         return InMemoryDatabase()
-
-
-# class TestFileSystemProvider(TestPhoneBookSystem):
-
-#     def getDatabaseService(self) -> None:
-#         database_service = FileSystemDatabase()
-#         self.phone_book_system = PhoneBookSystem(database_service)
-#         self.phone_book_system.setUpSystem()
-#         return super().setUp()
-
-
-# class TestMongoProvider(TestPhoneBookSystem):
-
-#     def getDatabaseService(self) -> None:
-#         database_service = MongoNoSQLDatabase()
-#         self.phone_book_system = PhoneBookSystem(database_service)
-#         self.phone_book_system.setUpSystem()
-#         return super().setUp()
