@@ -2,3 +2,4 @@ from .database_interface import IDatabase
 from .file_system_database import FileSystemDatabase
 from .in_memory_database import InMemoryDatabase
 from .mongo_database import MongoNoSQLDatabase
+from .postgre_database import PostgreSQLDatabase

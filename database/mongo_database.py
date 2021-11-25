@@ -9,10 +9,9 @@ class MongoNoSQLDatabase(IDatabase):
     def __init__(self) -> None:
         # creating database
         self.db: MongoClient = None
-        print(self.db)
+
         # creating collection
         self.contact = None
-        print(self.contact)
         super().__init__()
 
     def connect(self):

@@ -8,7 +8,7 @@ import unittest
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 sys.path.append(os.path.dirname(SCRIPT_DIR))
 
-from database import FileSystemDatabase, InMemoryDatabase, MongoNoSQLDatabase
+from database import FileSystemDatabase, InMemoryDatabase, MongoNoSQLDatabase, PostgreSQLDatabase
 from phone_book import PhoneBookSystem
 
 
@@ -22,7 +22,10 @@ class TestPhoneBookSystem(unittest.TestCase):
 
     def getDatabaseService(self):
         # raise NotImplementedError("Child class is not supplying db")
-        return InMemoryDatabase()
+        # return InMemoryDatabase()
+        # return FileSystemDatabase()
+        return PostgreSQLDatabase()
+        # return MongoNoSQLDatabase()
 
     def test_create_contact(self):
         name = "David"
@@ -54,7 +57,7 @@ class TestPhoneBookSystem(unittest.TestCase):
     def test_fail_read_contact(self):
         name = "David"
         phone = "0787870099"
-        phone2 = "07909087877"
+        phone2 = "0790908765"
         data = {"name": name, "phone": phone}
         data2 = {"name": name, "phone": phone2}
         self.phone_book_system.createContact(data)
