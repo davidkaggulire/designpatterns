@@ -104,7 +104,7 @@ class TestPhoneBookSystem(unittest.TestCase):
         self.phone_book_system.tearDownSystem()
         return super().tearDown()
 
-# class TestInMemoryProvider(PhoneBookSystem):
+# class TestInMemoryProvider(TestPhoneBookSystem):
 
 #     def getDatabaseService(self) -> None:
 #         return InMemoryDatabase()
