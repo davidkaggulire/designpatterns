@@ -2,7 +2,7 @@
 [![codecov](https://codecov.io/gh/davidkaggulire/designpatterns/branch/main/graph/badge.svg?token=2O2F4RR1LD)](https://codecov.io/gh/davidkaggulire/designpatterns)
 
 # designpatterns
-Project to explore various design patterns i.e Singleton, Factory design pattern, Dependency injection and Interfaces using a file system provider
+Project to explore various design patterns i.e Singleton, Factory design pattern, Dependency injection and Interfaces using different sets of providers i.e. InMemory, FileSystem, SQL and NoSQL.
 
 # Installation
 $ git clone https://github.com/davidkaggulire/designpatterns.git
