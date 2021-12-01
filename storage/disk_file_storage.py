@@ -96,12 +96,12 @@ class DiskFileStorage(IStorage):
     def createDirectory(self, dir_name: str) -> Tuple[bool, str]:
         print("Creating Directory...")
         try:
-            os.makedirs(dir_name)    
-            reason = f"Directory " , dir_name ,  " Created "
+            os.makedirs(dir_name)
+            reason = f"Directory {dir_name} created "
             print(reason)
             return True, reason
         except FileExistsError:
-            reason = print(f"Directory " , dir_name ,  " already exists")
+            reason = print(f"Directory {dir_name} already exists")
             print(reason)
             return False, reason
 
