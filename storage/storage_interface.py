@@ -29,7 +29,7 @@ class IStorage(ABC):
     @abstractmethod
     def listFilesInDirectory(self, source: str) -> Tuple[bool, str]:
         """list files"""
-    
+
     @abstractmethod
     def checkIfFileExists(self, source: str) -> Tuple[bool, str]:
         """check if file exists"""
@@ -41,4 +41,3 @@ class IStorage(ABC):
     @abstractmethod
     def deleteDirectory(self, dir_name: str) -> Tuple[bool, str]:
         """delete directory name"""
-
