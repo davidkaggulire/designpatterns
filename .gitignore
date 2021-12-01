@@ -132,3 +132,4 @@ dmypy.json
 .vscode
 temp/
 data_download/
+storage/serviceAccountKey.json
