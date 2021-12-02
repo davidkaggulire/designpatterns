@@ -3,7 +3,7 @@
 import os
 import shutil
 from typing import Tuple
-from storage_interface import IStorage
+from .storage_interface import IStorage
 
 
 class DiskFileStorage(IStorage):
