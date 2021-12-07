@@ -123,7 +123,7 @@ class FileStorageApp:
             reason = "File not found"
             return False, reason
 
-        reason = "Files exists"
+        reason = "File exists"
         print(reason)
         return True, reason
 
@@ -151,7 +151,7 @@ class FileStorageApp:
             reason = "Failed to delete directory"
             return False, reason
 
-        # reason = "Directory deleted successfully"
+        reason = "Directory deleted successfully"
         print(reason)
         return True, reason
 
@@ -249,21 +249,21 @@ user2 = {
 }
 
 # storage_service = DiskFileStorage()
-storage_service = FirebaseStorage()
+# storage_service = FirebaseStorage()
 
-file_app = FileStorageApp(storage_service)
+# file_app = FileStorageApp(storage_service)
 
-file_app.setUpSystem(user)
+# file_app.setUpSystem(user)
 
-# disk file storage
-file_app.uploadFile(data5)
-file_app.downloadFile(data_download)
-file_app.copyFile(data_download)
-file_app.uploadFile(data)
-file_app.deleteFile(data_del)
-file_app.getFileURL(data_url)
-file_app.checkIfFileExists(data)
-file_app.createDirectory(data_dir)
-file_app.listFilesInDirectory(data_dir)
-file_app.deleteDirectory(data_dir)
-file_app.renameFile(data_rename)
+# # operatioms
+# file_app.uploadFile(data5)
+# file_app.downloadFile(data_download)
+# file_app.copyFile(data_download)
+# file_app.uploadFile(data)
+# file_app.deleteFile(data_del)
+# file_app.getFileURL(data_url)
+# file_app.checkIfFileExists(data_download)
+# file_app.createDirectory(data_dir)
+# file_app.listFilesInDirectory(data_dir)
+# file_app.deleteDirectory(data_dir)
+# file_app.renameFile(data_rename)
