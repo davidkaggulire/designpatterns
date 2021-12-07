@@ -1,6 +1,6 @@
 # storage_interface.py
 
-from typing import Tuple
+from typing import Tuple, List
 from abc import ABC, abstractmethod
 
 
@@ -19,7 +19,7 @@ class IStorage(ABC):
         """deletes file"""
 
     @abstractmethod
-    def getFileURL(self, url: str) -> str:
+    def getFileURL(self, source: str) -> str:
         """gets File path and returns a valid signed url"""
 
     @abstractmethod
@@ -27,7 +27,7 @@ class IStorage(ABC):
         """copies Files"""
 
     @abstractmethod
-    def listFilesInDirectory(self, source: str) -> Tuple[bool, str]:
+    def listFilesInDirectory(self, source: str) -> Tuple[bool, str, List[str]]:
         """list files"""
 
     @abstractmethod
@@ -35,9 +35,21 @@ class IStorage(ABC):
         """check if file exists"""
 
     @abstractmethod
-    def createDirectory(self, dir_name: str) -> Tuple[bool, str]:
+    def createDirectory(self, source: str) -> Tuple[bool, str]:
         """create directory"""
 
     @abstractmethod
-    def deleteDirectory(self, dir_name: str) -> Tuple[bool, str]:
+    def deleteDirectory(self, source: str) -> Tuple[bool, str]:
         """delete directory name"""
+
+    @abstractmethod
+    def renameFile(self, source: str, dest: str) -> Tuple[bool, str]:
+        """renames a file"""
+
+    @abstractmethod
+    def signUp(self, email: str, password: str) -> Tuple[bool, str]:
+        """signs up user"""
+
+    @abstractmethod
+    def signIn(self, email: str, password: str) -> Tuple[bool, str]:
+        """signs up user"""
