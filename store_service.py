@@ -63,7 +63,7 @@ class FileStorageApp:
 
         if not deleted:
             print(reason)
-            reason = "Failed to delete file"
+            reason = "File not found"
             return False, reason
 
         reason = "File deleted successfully"
@@ -76,7 +76,7 @@ class FileStorageApp:
         signed_url = self.fs.getFileURL(source)
 
         if not signed_url:
-            reason = "Failed to sign URL"
+            reason = "URL cannot be retrieved"
             return reason
 
         reason = "URL signed successfully"
@@ -106,7 +106,7 @@ class FileStorageApp:
 
         if not list_files:
             print(reason)
-            reason = "Failed to list files"
+            reason = "Path to list not found"
             return False, reason, ""
 
         reason = "Files listed successfully"
@@ -134,7 +134,7 @@ class FileStorageApp:
 
         if not dir_created:
             print(reason)
-            reason = "Failed to create directory"
+            reason = "Directory exists"
             return False, reason
 
         reason = "Directory created"
@@ -163,7 +163,7 @@ class FileStorageApp:
 
         if not file_renamed:
             print(reason)
-            reason = "Failed to rename file"
+            reason = "File not found"
             return False, reason
 
         reason = "File renamed successfully"
@@ -249,11 +249,11 @@ user2 = {
 }
 
 # storage_service = DiskFileStorage()
-# storage_service = FirebaseStorage()
+storage_service = FirebaseStorage()
 
-# file_app = FileStorageApp(storage_service)
+file_app = FileStorageApp(storage_service)
 
-# file_app.setUpSystem(user)
+file_app.setUpSystem(user)
 
 # # operatioms
 # file_app.uploadFile(data5)

@@ -1,5 +1,5 @@
 # disk_file_storage.py
-from hashlib import md5
+
 import uuid
 import os
 import shutil
@@ -13,7 +13,7 @@ class DiskFileStorage(IStorage):
         user_id = uuid.uuid3(uuid.NAMESPACE_DNS, "david")
         print(user_id)
         self.base = f"repo/{user_id}"
-        
+
     def uploadFile(self, source: str, dest: str) -> Tuple[bool, str]:
         print("Uploading file...")
         print(self.base)
@@ -44,8 +44,9 @@ class DiskFileStorage(IStorage):
             return False, reason
 
     def deleteFile(self, source: str) -> Tuple[bool, str]:
-        print("Deleting file...")
         path = f"{self.base}/{source}"
+        print(f"Deleting file...{path}")
+
         try:
             os.remove(path)
             reason = f"-File {path} deleted successfully"
@@ -64,10 +65,9 @@ class DiskFileStorage(IStorage):
             print(reason)
             return source
         else:
-            reason = f'Error: {path} not a valid filename'
-            print(reason)
-            print("cannot sign URL")
-            return ""
+            print(f'Error: {path} not a valid filename')
+            reason = "URL cannot be retrieved"
+            return reason
 
     def copyFile(self, source: str, dest: str) -> Tuple[bool, str]:
         # using shutil.copy() - doesnt copy metadata else use shutil.copy2()
