@@ -74,8 +74,8 @@ class FileStorageApp:
         print("Signing URL...")
         source = data["source"]
         signed_url = self.fs.getFileURL(source)
-
-        if not signed_url:
+        expected = "URL cannot be retrieved"
+        if signed_url == expected :
             reason = "URL cannot be retrieved"
             return reason
 
@@ -249,11 +249,11 @@ user2 = {
 }
 
 # storage_service = DiskFileStorage()
-storage_service = FirebaseStorage()
+# storage_service = FirebaseStorage()
 
-file_app = FileStorageApp(storage_service)
+# file_app = FileStorageApp(storage_service)
 
-file_app.setUpSystem(user)
+# file_app.setUpSystem(user)
 
 # # operatioms
 # file_app.uploadFile(data5)
