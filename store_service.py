@@ -75,7 +75,7 @@ class FileStorageApp:
         source = data["source"]
         signed_url = self.fs.getFileURL(source)
         expected = "URL cannot be retrieved"
-        if signed_url == expected :
+        if signed_url == expected:
             reason = "URL cannot be retrieved"
             return reason
 
