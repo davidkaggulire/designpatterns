@@ -54,7 +54,7 @@ jobs:
 
       - name: Run tests for inmemory db
         run: |
-          pytest -s -vv tests/test_databases.py --db "mongo"
+          pytest -s -vv tests/test_databases.py --db "inmemory"
 
       - name: Run tests for Filesystem db
         run: |
