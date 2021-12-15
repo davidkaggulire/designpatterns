@@ -5,6 +5,12 @@ on:
     branches:
       - dev
 
+env:
+  apiKey: ${{ secrets.GCP_API_KEY }}
+  projectId: ${{ secrets.GCP_PROJECT_ID }}
+  storageBucket: ${{ secrets.GCP_STORAGE_BUCKET }}
+  serviceAccount: ${{ secrets.gcp_credentials }}
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -21,22 +27,22 @@ jobs:
           python3 -m venv venv
           source venv/bin/activate
 
+      - name: Make directory repo
+        run: |
+          mkdir repo
+
       - name: Install dependencies
         run: |
           pip install -r requirements.txt
 
-      - name: Build and push
-        env:
-          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+      - id: auth
+        uses: google-github-actions/auth@v0
+        with:
+          service_account: ${{ secrets.gcp_credentials }}
 
-      - name: Run tests
-        run: python3 -m unittest discover tests
-
-      - name: Lint with flake8
-        run: |
-          flake8 patterns.py
-
+      - name: Set up Cloud SDK
+        uses: google-github-actions/setup-gcloud@v0.3.0
+      
       - name: Test with pytest
         run: |
-          pytest
-        
+          pytest -s -vv tests/test_storage.py --service "local"
