@@ -73,6 +73,7 @@ class DiskFileStorage(IStorage):
         # using shutil.copy() - doesnt copy metadata else use shutil.copy2()
         print("Copying File...")
         path = f"{self.base}/{source}"
+        dest = f"{self.base}/{dest}"
         try:
             shutil.copy(path, dest)
             reason = f"File {path} copied to {dest} successfully"
