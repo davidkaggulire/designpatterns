@@ -10,6 +10,7 @@ env:
   projectId: ${{ secrets.GCP_PROJECT_ID }}
   storageBucket: ${{ secrets.GCP_STORAGE_BUCKET }}
   serviceAccount: ${{ secrets.gcp_credentials }}
+  MONGODB_URI: ${{ secrets.MONGODB_URI }}
 
 jobs:
   build:
