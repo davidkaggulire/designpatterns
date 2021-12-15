@@ -34,8 +34,8 @@ def getDatabaseService(db_name):
         return InMemoryDatabase()
     elif db_name == "filesystem":
         return FileSystemDatabase()
-    elif db_name == "postgres":
-        return PostgreSQLDatabase()
+    # elif db_name == "postgres":
+    #     return PostgreSQLDatabase()
     elif db_name == "mongo":
         return MongoNoSQLDatabase()
 
