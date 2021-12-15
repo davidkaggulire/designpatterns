@@ -18,6 +18,7 @@ def db_service(getDatabaseService):
     phone_book_system.setUpSystem()
     return phone_book_system
 
+
 @pytest.fixture
 def db_name(request):
     """return """
