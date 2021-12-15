@@ -88,11 +88,11 @@ class PhoneBookSystem:
 
 # database_service = InMemoryDatabase()
 # database_service = FileSystemDatabase()
-database_service = PostgreSQLDatabase()
+# database_service = PostgreSQLDatabase()
 # database_service = MongoNoSQLDatabase()
 
-phone_book_system = PhoneBookSystem(database_service)
-phone_book_system.setUpSystem()
+# phone_book_system = PhoneBookSystem(database_service)
+# phone_book_system.setUpSystem()
 
 name = "Person"
 phone = "0787870078"
@@ -101,11 +101,11 @@ phone2 = "0789001012"
 name2 = "Person2"
 
 
-phone_book_system.createContact({"name": name, "phone": phone})
+# phone_book_system.createContact({"name": name, "phone": phone})
 # phone_book_system.createContact({"name": name, "phone": phone})
 # phone_book_system.read_contact({"name": name, "phone": phone2})
-phone_book_system.read_contact({"name": name, "phone": phone})
-phone_book_system.update_contact({"name": name, "phone": phone})
+# phone_book_system.read_contact({"name": name, "phone": phone})
+# phone_book_system.update_contact({"name": name, "phone": phone})
 # phone_book_system.update_contact({"name": name2, "phone": phone})
 # phone_book_system.read_contact({"name": name, "phone": phone})
 # phone_book_system.delete_contact({"name": name, "phone": phone})

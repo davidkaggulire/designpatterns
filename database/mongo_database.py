@@ -2,7 +2,13 @@
 
 from .database_interface import IDatabase
 from typing import Dict, Tuple
+from dotenv import load_dotenv
 from pymongo import MongoClient
+import os
+
+# load config from a .env file
+load_dotenv()
+MONGODB_URI = os.environ.get('MONGODB_URI')
 
 
 class MongoNoSQLDatabase(IDatabase):
@@ -16,7 +22,7 @@ class MongoNoSQLDatabase(IDatabase):
 
     def connect(self):
         try:
-            client = MongoClient(host="localhost", port=27017)
+            client = MongoClient(MONGODB_URI)
             # creating database
             self.db = client.patterns
             print(self.db)
@@ -24,7 +30,8 @@ class MongoNoSQLDatabase(IDatabase):
             self.contact = self.db.contact
             print(self.contact)
             print("Connected successfully to MongoDB!!!")
-        except Exception:
+        except Exception as e:
+            print(e)
             print("Could not connect to MongoDB")
         return True
 
