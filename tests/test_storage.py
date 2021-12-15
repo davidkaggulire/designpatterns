@@ -136,7 +136,7 @@ def test_get_file_url_fail(service):
 def test_copy_file_success(service):
     data_download = {
         "source": "awesome chords.png",
-        "dest": "data_download/cool.png"
+        "dest": "cool.png"
     }
     output = service.copyFile(data_download)
     expected = (True, 'File copied successfully')
