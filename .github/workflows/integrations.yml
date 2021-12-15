@@ -45,4 +45,4 @@ jobs:
       
       - name: Test with pytest
         run: |
-          pytest -s -vv tests/test_storage.py --service "local"
+          pytest -s -vv tests/test_storage.py --service "cloud"
