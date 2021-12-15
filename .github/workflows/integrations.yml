@@ -43,6 +43,14 @@ jobs:
       - name: Set up Cloud SDK
         uses: google-github-actions/setup-gcloud@v0.3.0
       
-      - name: Test with pytest
+      - name: Run tests for disk file storage with pytest
         run: |
           pytest -s -vv tests/test_storage.py --service "local"
+
+      - name: Run tests for inmemory db
+        run: |
+          pytest -s -vv tests/test_databases.py --db "inmemory"
+
+      - name: Run tests for Filesystem db
+        run: |
+          pytest -s -vv tests/test_databases.py --db "filesystem"
