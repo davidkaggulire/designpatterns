@@ -8,7 +8,14 @@ The project also tests the design patterns with the disk file storage and Fireba
 # Installation
 $ git clone https://github.com/davidkaggulire/designpatterns.git
 
-$ cd your-dir
+$ cd `your-dir`
+
+Create virtual environment using command below
+
+$ python3 -m venv `venv`
+
+Activate virtual environment
+`source venv/bin/activate`
 
 $ pip install -r requirements.txt
 
