@@ -48,8 +48,8 @@ def getStorageService(sys_name):
 
 def test_upload_success(service):
     data = {
-        "source": "./data_download/awesome chords.png",
-        "dest": "awesome chords.png"
+        "source": "./data_download/awesome_chords.png",
+        "dest": "awesome_chords.png"
     }
     output = service.uploadFile(data)
     expected = (True, 'File uploaded successfully')
@@ -59,7 +59,7 @@ def test_upload_success(service):
 def test_upload_fail(service):
     data = {
         "source": "data_download/awesome.png",
-        "dest": "awesome chords.png"
+        "dest": "awesome_chords.png"
     }
     output = service.uploadFile(data)
     expected = (False, 'Failed to upload file')
@@ -68,7 +68,7 @@ def test_upload_fail(service):
 
 def test_download_success(service):
     data_download = {
-        "source": "awesome chords.png",
+        "source": "awesome_chords.png",
         "dest": "data_download/cool.png"
     }
     output = service.downloadFile(data_download)
@@ -88,7 +88,7 @@ def test_download_fail(service):
 
 def test_delete_file_success(service):
     data = {
-        "source": "data_download/awesome chords.png",
+        "source": "data_download/awesome_chords.png",
         "dest": "goodfoot.png"
     }
 
@@ -115,7 +115,7 @@ def test_delete_file_fail(service):
 def test_get_file_url_success(service):
     # TO inquire
     data_url = {
-        "source": "awesome chords.png",
+        "source": "awesome_chords.png",
         "dest": ""
     }
     output = service.getFileURL(data_url)
@@ -135,7 +135,7 @@ def test_get_file_url_fail(service):
 
 def test_copy_file_success(service):
     data_download = {
-        "source": "awesome chords.png",
+        "source": "awesome_chords.png",
         "dest": "cool.png"
     }
     output = service.copyFile(data_download)
@@ -210,7 +210,7 @@ def test_delete_directory_success(service):
 
 def test_delete_directory_fail(service):
     data = {
-        "source": "data_download/awesome chords.png",
+        "source": "data_download/awesome_chords.png",
         "dest": "games/football.png"
     }
     data_dir = {
@@ -225,7 +225,7 @@ def test_delete_directory_fail(service):
 
 def test_rename_file_success(service):
     data_rename = {
-        "source": "awesome chords.png",
+        "source": "awesome_chords.png",
         "dest": "goodfoot.png"
     }
     output = service.renameFile(data_rename)
@@ -245,12 +245,12 @@ def test_rename_file_fail(service):
 
 def test_check_file_exists_success(service):
     data = {
-        "source": "data_download/awesome chords.png",
-        "dest": "awesome chords.png"
+        "source": "data_download/awesome_chords.png",
+        "dest": "awesome_chords.png"
     }
     data_download = {
         # "source": "music",
-        "source": "awesome chords.png",
+        "source": "awesome_chords.png",
         "dest": "data_download/cool.png"
     }
     service.uploadFile(data)
