@@ -48,7 +48,7 @@ def getStorageService(sys_name):
 
 def test_upload_success(service):
     data = {
-        "source": "data_download/awesome chords.png",
+        "source": "./data_download/awesome chords.png",
         "dest": "awesome chords.png"
     }
     output = service.uploadFile(data)
