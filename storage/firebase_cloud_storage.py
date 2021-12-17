@@ -49,8 +49,6 @@ class FirebaseStorage(IStorage):
                 bucket = storage.bucket()
                 blob = bucket.blob(f"{self.base}/{user_id}/{dest}")
                 blob.upload_from_filename(source)
-                # self.storage.child(f"{self.base}/{user_id}/{dest}").put(source)
-                # self.storage.child(f"{self.base}/{dest}").put(source)
                 reason = "Upload successful"
                 print(reason)
                 return True, reason
