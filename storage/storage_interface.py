@@ -51,5 +51,5 @@ class IStorage(ABC):
         """signs up user"""
 
     @abstractmethod
-    def signIn(self, email: str, password: str) -> Tuple[bool, str]:
+    def signIn(self, email: str, password: str) -> Tuple[bool, str, str]:
         """signs up user"""
