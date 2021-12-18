@@ -94,11 +94,11 @@ def test_download_fail(service):
 def test_delete_file_success(service):
     data = {
         "source": "./repo/system_user/data_download/awesome_chords.png",
-        "dest": "goodfoot.png"
+        "dest": "sample.png"
     }
 
     data_del = {
-        "source": "goodfoot.png",
+        "source": "sample.png",
         "dest": ""
     }
     service.uploadFile(data)
