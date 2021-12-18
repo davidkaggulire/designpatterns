@@ -28,7 +28,7 @@ class DiskFileStorage(IStorage):
             return False, reason
 
     def downloadFile(self, source: str, dest: str) -> Tuple[bool, str]:
-        print(f"Downloading file ....{source} to {dest}")
+        print(f"Downloading file ...{source} to {dest}")
         try:
             path = f"{self.base}/{source}"
             shutil.copy(path, dest)
@@ -69,7 +69,7 @@ class DiskFileStorage(IStorage):
 
     def copyFile(self, source: str, dest: str) -> Tuple[bool, str]:
         # using shutil.copy() - doesnt copy metadata else use shutil.copy2()
-        print(f"Copying File...from {source} to  {dest}")
+        print(f"Copying File...from {source} to {dest}")
         path = f"{self.base}/{source}"
         dest = f"{self.base}/{dest}"
         try:
