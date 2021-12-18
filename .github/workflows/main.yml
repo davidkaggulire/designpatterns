@@ -32,10 +32,6 @@ jobs:
       - name: Install dependencies
         run: |
           pip install -r requirements.txt
-
-      - name: Make directory repo
-        run: |
-          mkdir repo
       
       - id: auth
         uses: google-github-actions/auth@v0
