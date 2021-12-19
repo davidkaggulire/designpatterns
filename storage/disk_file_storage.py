@@ -14,15 +14,17 @@ class DiskFileStorage(IStorage):
 
     def uploadFile(self, source: str, dest: str) -> Tuple[bool, str]:
         print(f"Uploading file...from {source} to {dest}")
-        print(self.base)
         dest = f"{self.base}/{dest}"
+        print(dest)
         try:
+            # ensuring is created in case it doesnot exist
+            os.makedirs(os.path.dirname(dest), exist_ok=True)
             shutil.copy(source, dest)
             reason = f"File {source} uploaded to {dest} successfully"
             print(reason)
             return True, reason
         except OSError as e:
-            print(f"Error: {source} : {e.strerror}")
+            print(f"Error: {dest} : {e.strerror}")
             reason = "Failed to upload file"
             print(reason)
             return False, reason
@@ -46,6 +48,7 @@ class DiskFileStorage(IStorage):
         print(f"Deleting file...{path}")
 
         try:
+            os.makedirs(os.path.dirname(path), exist_ok=True)
             os.remove(path)
             reason = f"-File {path} deleted successfully"
             print(reason)
@@ -73,6 +76,7 @@ class DiskFileStorage(IStorage):
         path = f"{self.base}/{source}"
         dest = f"{self.base}/{dest}"
         try:
+            os.makedirs(os.path.dirname(path), exist_ok=True)
             shutil.copy(path, dest)
             reason = f"File {path} copied to {dest} successfully"
             print(reason)
