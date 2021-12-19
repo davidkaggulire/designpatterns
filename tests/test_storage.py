@@ -9,7 +9,7 @@ SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 sys.path.append(os.path.dirname(SCRIPT_DIR))
 
 from storage import DiskFileStorage, FirebaseStorage
-from store_service import FileStorageApp
+from store_system import FileStorageApp
 
 
 user = {
@@ -48,32 +48,37 @@ def getStorageService(sys_name):
 
 def test_upload_success(service):
     data = {
-        "source": "data_download/awesome chords.png",
-        "dest": "awesome chords.png"
+        "source": "repo/system_user/data_download/awesome_chords.png",
+        "dest": "awesome_chords.png"
     }
     output = service.uploadFile(data)
     expected = (True, 'File uploaded successfully')
-    assert output, expected
+    assert output == expected
 
 
 def test_upload_fail(service):
     data = {
         "source": "data_download/awesome.png",
-        "dest": "awesome chords.png"
+        "dest": "awesome_chords.png"
     }
     output = service.uploadFile(data)
     expected = (False, 'Failed to upload file')
-    assert output, expected
+    assert output == expected
 
 
 def test_download_success(service):
-    data_download = {
-        "source": "awesome chords.png",
-        "dest": "data_download/cool.png"
+    data = {
+        "source": "repo/system_user/data_download/awesome_chords.png",
+        "dest": "awesome_chords.png"
     }
+    data_download = {
+        "source": "awesome_chords.png",
+        "dest": "./repo/system_user/data_download/cool.png"
+    }
+    service.uploadFile(data)
     output = service.downloadFile(data_download)
     expected = (True, 'File downloaded successfully')
-    assert output, expected
+    assert output == expected
 
 
 def test_download_fail(service):
@@ -83,23 +88,23 @@ def test_download_fail(service):
     }
     output = service.downloadFile(data_download)
     expected = (False, 'Failed to download file')
-    assert output, expected
+    assert output == expected
 
 
 def test_delete_file_success(service):
     data = {
-        "source": "data_download/awesome chords.png",
-        "dest": "goodfoot.png"
+        "source": "repo/system_user/data_download/awesome_chords.png",
+        "dest": "sample.png"
     }
 
     data_del = {
-        "source": "goodfoot.png",
+        "source": "sample.png",
         "dest": ""
     }
     service.uploadFile(data)
     output = service.deleteFile(data_del)
     expected = (True, 'File deleted successfully')
-    assert output, expected
+    assert output == expected
 
 
 def test_delete_file_fail(service):
@@ -109,17 +114,21 @@ def test_delete_file_fail(service):
     }
     output = service.deleteFile(data_del)
     expected = (False, 'File not found')
-    assert output, expected
+    assert output == expected
 
 
 def test_get_file_url_success(service):
-    # TO inquire
+    data = {
+        "source": "repo/system_user/data_download/awesome_chords.png",
+        "dest": "awesome_chords.png"
+    }
     data_url = {
-        "source": "awesome chords.png",
+        "source": "awesome_chords.png",
         "dest": ""
     }
+    service.uploadFile(data)
     output = service.getFileURL(data_url)
-    assert output, str
+    assert isinstance(output, str)
 
 
 def test_get_file_url_fail(service):
@@ -130,17 +139,22 @@ def test_get_file_url_fail(service):
     }
     expected = "URL cannot be retrieved"
     output = service.getFileURL(data_url)
-    assert output, expected
+    assert output == expected
 
 
 def test_copy_file_success(service):
+    data = {
+        "source": "repo/system_user/data_download/awesome_chords.png",
+        "dest": "awesome_chords.png"
+    }
     data_download = {
-        "source": "awesome chords.png",
+        "source": "awesome_chords.png",
         "dest": "cool.png"
     }
+    service.uploadFile(data)
     output = service.copyFile(data_download)
     expected = (True, 'File copied successfully')
-    assert output, expected
+    assert output == expected
 
 
 def test_copy_file_fail(service):
@@ -150,7 +164,7 @@ def test_copy_file_fail(service):
     }
     output = service.copyFile(data_download)
     expected = (False, 'Failed to copy file')
-    assert output, expected
+    assert output == expected
 
 
 def test_create_dir_success(service):
@@ -162,7 +176,7 @@ def test_create_dir_success(service):
     service.deleteDirectory(data_dir)
     output = service.createDirectory(data_dir)
     expected = (True, 'Directory created')
-    assert output, expected
+    assert output == expected
 
 
 def test_create_dir_fail(service):
@@ -173,7 +187,7 @@ def test_create_dir_fail(service):
     service.createDirectory(data_dir)
     output = service.createDirectory(data_dir)
     expected = (False, 'Directory exists')
-    assert output, expected
+    assert output == expected
 
 
 def test_list_files_dir_success(service):
@@ -184,7 +198,7 @@ def test_list_files_dir_success(service):
     service.createDirectory(data_dir)
     output = service.listFilesInDirectory(data_dir)
     expected = (True, 'Files listed successfully', [])
-    assert output, expected
+    assert output == expected
 
 
 def test_list_files_dir_fail(service):
@@ -194,7 +208,7 @@ def test_list_files_dir_fail(service):
     }
     output = service.listFilesInDirectory(data_dir)
     expected = (False, 'Path to list not found', "")
-    assert output, expected
+    assert output == expected
 
 
 def test_delete_directory_success(service):
@@ -205,12 +219,12 @@ def test_delete_directory_success(service):
     service.createDirectory(data_dir)
     output = service.deleteDirectory(data_dir)
     expected = (True, 'Directory deleted successfully')
-    assert output, expected
+    assert output == expected
 
 
 def test_delete_directory_fail(service):
     data = {
-        "source": "data_download/awesome chords.png",
+        "source": "repo/system_user/data_download/awesome_chords.png",
         "dest": "games/football.png"
     }
     data_dir = {
@@ -220,17 +234,22 @@ def test_delete_directory_fail(service):
     service.uploadFile(data)
     output = service.deleteDirectory(data_dir)
     expected = (False, 'Failed to delete directory')
-    assert output, expected
+    assert output == expected
 
 
 def test_rename_file_success(service):
+    data = {
+        "source": "repo/system_user/data_download/awesome_chords.png",
+        "dest": "awesome_chords.png"
+    }
     data_rename = {
-        "source": "awesome chords.png",
+        "source": "awesome_chords.png",
         "dest": "goodfoot.png"
     }
+    service.uploadFile(data)
     output = service.renameFile(data_rename)
     expected = (True, 'File renamed successfully')
-    assert output, expected
+    assert output == expected
 
 
 def test_rename_file_fail(service):
@@ -240,23 +259,23 @@ def test_rename_file_fail(service):
     }
     output = service.renameFile(data_rename)
     expected = (False, 'File not found')
-    assert output, expected
+    assert output == expected
 
 
 def test_check_file_exists_success(service):
     data = {
-        "source": "data_download/awesome chords.png",
-        "dest": "awesome chords.png"
+        "source": "repo/system_user/data_download/awesome_chords.png",
+        "dest": "awesome_chords.png"
     }
     data_download = {
         # "source": "music",
-        "source": "awesome chords.png",
+        "source": "awesome_chords.png",
         "dest": "data_download/cool.png"
     }
     service.uploadFile(data)
     output = service.checkIfFileExists(data_download)
     expected = (True, 'File exists')
-    assert output, expected
+    assert output == expected
 
 
 def test_check_file_exists_fail(service):
@@ -266,4 +285,4 @@ def test_check_file_exists_fail(service):
     }
     output = service.checkIfFileExists(data_download)
     expected = (False, 'File not found')
-    assert output, expected
+    assert output == expected

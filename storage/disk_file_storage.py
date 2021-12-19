@@ -10,27 +10,27 @@ from .storage_interface import IStorage
 class DiskFileStorage(IStorage):
 
     def __init__(self):
-        user_id = uuid.uuid3(uuid.NAMESPACE_DNS, "david")
-        print(user_id)
-        self.base = f"repo/{user_id}"
+        self.base = "repo"
 
     def uploadFile(self, source: str, dest: str) -> Tuple[bool, str]:
-        print("Uploading file...")
-        print(self.base)
+        print(f"Uploading file...from {source} to {dest}")
         dest = f"{self.base}/{dest}"
+        print(dest)
         try:
+            # ensuring is created in case it doesnot exist
+            os.makedirs(os.path.dirname(dest), exist_ok=True)
             shutil.copy(source, dest)
             reason = f"File {source} uploaded to {dest} successfully"
             print(reason)
             return True, reason
         except OSError as e:
-            print(f"Error: {source} : {e.strerror}")
+            print(f"Error: {dest} : {e.strerror}")
             reason = "Failed to upload file"
             print(reason)
             return False, reason
 
     def downloadFile(self, source: str, dest: str) -> Tuple[bool, str]:
-        print(f"Downloading file ....{source}")
+        print(f"Downloading file ...{source} to {dest}")
         try:
             path = f"{self.base}/{source}"
             shutil.copy(path, dest)
@@ -38,16 +38,17 @@ class DiskFileStorage(IStorage):
             print(reason)
             return True, reason
         except OSError as e:
-            print(f"Error: {path} : {e.strerror}")
-            reason = "Failed to download file"
+            reason = "Failed to download file "+f"Error: {path} : {e.strerror}"
             print(reason)
             return False, reason
 
     def deleteFile(self, source: str) -> Tuple[bool, str]:
+        print(f"Deleting file {source}")
         path = f"{self.base}/{source}"
         print(f"Deleting file...{path}")
 
         try:
+            os.makedirs(os.path.dirname(path), exist_ok=True)
             os.remove(path)
             reason = f"-File {path} deleted successfully"
             print(reason)
@@ -58,7 +59,7 @@ class DiskFileStorage(IStorage):
             return False, reason
 
     def getFileURL(self, source: str) -> str:
-        print("getting file URL and signing it")
+        print(f"getting file URL and signing it...{source}")
         path = f"{self.base}/{source}"
         if os.path.isfile(path):
             reason = f"File {path} exists"
@@ -71,10 +72,11 @@ class DiskFileStorage(IStorage):
 
     def copyFile(self, source: str, dest: str) -> Tuple[bool, str]:
         # using shutil.copy() - doesnt copy metadata else use shutil.copy2()
-        print("Copying File...")
+        print(f"Copying File...from {source} to {dest}")
         path = f"{self.base}/{source}"
         dest = f"{self.base}/{dest}"
         try:
+            os.makedirs(os.path.dirname(path), exist_ok=True)
             shutil.copy(path, dest)
             reason = f"File {path} copied to {dest} successfully"
             print(reason)
@@ -86,7 +88,7 @@ class DiskFileStorage(IStorage):
             return False, reason
 
     def listFilesInDirectory(self, source: str) -> Tuple[bool, str, List[str]]:
-        print("Listing files in directory...")
+        print(f"Listing files in directory...{source}")
         path = f"{self.base}/{source}"
         listed_files = []
         try:
@@ -105,7 +107,7 @@ class DiskFileStorage(IStorage):
             return False, reason, ""
 
     def checkIfFileExists(self, source: str) -> Tuple[bool, str]:
-        print("Checking if file exists...")
+        print(f"Checking if file {source} exists...")
         path = f"{self.base}/{source}"
         if os.path.isfile(path):
             reason = f"File {path} exists"
@@ -117,7 +119,7 @@ class DiskFileStorage(IStorage):
             return False, reason
 
     def createDirectory(self, source: str) -> Tuple[bool, str]:
-        print("Creating Directory...")
+        print(f"Creating Directory {source}...")
         path = f"{self.base}/{source}"
         try:
             os.makedirs(path)
@@ -130,7 +132,7 @@ class DiskFileStorage(IStorage):
             return False, reason
 
     def deleteDirectory(self, source: str) -> Tuple[bool, str]:
-        print("Deleting Directory...")
+        print(f"Deleting Directory...{source}")
         path = f"{self.base}/{source}"
         try:
             os.rmdir(path)
@@ -144,7 +146,7 @@ class DiskFileStorage(IStorage):
             return False, reason
 
     def renameFile(self, source: str, dest: str) -> Tuple[bool, str]:
-        print("Renaming File....")
+        print(f"Renaming File....{source} to {dest}")
         path = f"{self.base}/{source}"
         dest = f"{self.base}/{dest}"
         try:
@@ -161,12 +163,16 @@ class DiskFileStorage(IStorage):
 
     def signUp(self, email: str, password: str) -> Tuple[bool, str]:
         print(f"Creating user...{email}")
+        user_id = uuid.uuid3(uuid.NAMESPACE_DNS, email)
+        print(user_id)
         reason = "User Created Successfully"
         print(reason)
         return True, reason
 
-    def signIn(self, email: str, password: str) -> Tuple[bool, str]:
+    def signIn(self, email: str, password: str) -> Tuple[bool, str, str]:
         print(f"logging in user...{email}")
+        user_id = uuid.uuid3(uuid.NAMESPACE_DNS, email)
         reason = "Sign In Was Successful"
         print(reason)
-        return True, reason
+        print(f"current user is {user_id}")
+        return True, user_id, reason

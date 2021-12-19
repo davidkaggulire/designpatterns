@@ -8,28 +8,32 @@ class FileStorageApp:
 
     def __init__(self, storage_service_provider: IStorage) -> None:
         self.fs = storage_service_provider
+        self.user_id = None
 
-    def setUpSystem(self, data: dict) -> Tuple[bool, str]:
+    def setUpSystem(self, data: dict) -> Tuple[bool, str, str]:
         print("Connecting to file system")
         email = data['email']
         password = data['password']
 
-        login_user, reason = self.fs.signIn(email, password)
+        login_user, self.user_id, reason = self.fs.signIn(email, password)
 
         # create user and login when user doesn't exist
         if not login_user:
             created_user, create_reason = self.fs.signUp(email, password)
             print(create_reason)
-            login, new_reason = self.fs.signIn(email, password)
+            login, user_id, new_reason = self.fs.signIn(email, password)
         else:
             print(reason)
-            return True, reason
+            return True, self.user_id, reason
         print("File System startup complete")
 
     def uploadFile(self, data: dict) -> Tuple[bool, str]:
         print("Uploading file...")
         source = data["source"]
         dest = data["dest"]
+        # prepend user id to dest -- user_id/dest
+        dest = f"{self.user_id}/{dest}"
+
         uploaded, reason = self.fs.uploadFile(source, dest)
 
         if not uploaded:
@@ -45,6 +49,8 @@ class FileStorageApp:
         print("Downloading file...")
         source = data["source"]
         dest = data["dest"]
+
+        source = f"{self.user_id}/{source}"
         downloaded, reason = self.fs.downloadFile(source, dest)
 
         if not downloaded:
@@ -59,6 +65,7 @@ class FileStorageApp:
     def deleteFile(self, data: dict) -> Tuple[bool, str]:
         print("Deleting file")
         source = data["source"]
+        source = f"{self.user_id}/{source}"
         deleted, reason = self.fs.deleteFile(source)
 
         if not deleted:
@@ -73,6 +80,7 @@ class FileStorageApp:
     def getFileURL(self, data: dict) -> str:
         print("Signing URL...")
         source = data["source"]
+        source = f"{self.user_id}/{source}"
         signed_url = self.fs.getFileURL(source)
         expected = "URL cannot be retrieved"
         if signed_url == expected:
@@ -86,7 +94,10 @@ class FileStorageApp:
     def copyFile(self, data: dict) -> Tuple[bool, str]:
         print("Copying file...")
         source = data["source"]
+        source = f"{self.user_id}/{source}"
+
         dest = data["dest"]
+        dest = f"{self.user_id}/{dest}"
         copied_file, reason = self.fs.copyFile(source, dest)
 
         if not copied_file:
@@ -102,6 +113,7 @@ class FileStorageApp:
         #  work in progress
         print("Listing files...")
         source = data["source"]
+        source = f"{self.user_id}/{source}"
         list_files, reason, file_list = self.fs.listFilesInDirectory(source)
 
         if not list_files:
@@ -116,6 +128,7 @@ class FileStorageApp:
     def checkIfFileExists(self, data: dict) -> Tuple[bool, str]:
         print("Checking if file exists...")
         source = data["source"]
+        source = f"{self.user_id}/{source}"
         file_exists, reason = self.fs.checkIfFileExists(source)
 
         if not file_exists:
@@ -130,6 +143,7 @@ class FileStorageApp:
     def createDirectory(self, data: dict) -> Tuple[bool, str]:
         print("Creating Directory...")
         source = data["source"]
+        source = f"{self.user_id}/{source}"
         dir_created, reason = self.fs.createDirectory(source)
 
         if not dir_created:
@@ -144,6 +158,7 @@ class FileStorageApp:
     def deleteDirectory(self, data: dict) -> Tuple[bool, str]:
         print("Deleting Directory...")
         source = data["source"]
+        source = f"{self.user_id}/{source}"
         dir_deleted, reason = self.fs.deleteDirectory(source)
 
         if not dir_deleted:
@@ -158,7 +173,9 @@ class FileStorageApp:
     def renameFile(self, data: dict) -> Tuple[bool, str]:
         print("Renaming file...")
         source = data["source"]
+        source = f"{self.user_id}/{source}"
         dest = data["dest"]
+        dest = f"{self.user_id}/{dest}"
         file_renamed, reason = self.fs.renameFile(source, dest)
 
         if not file_renamed:
@@ -173,7 +190,7 @@ class FileStorageApp:
 
 # testing
 data = {
-    "source": "data_download/awesome chords.png",
+    "source": "./repo/system_user/data_download/awesome_chords.png",
     "dest": "goodfoot.png"
 }
 
@@ -202,13 +219,20 @@ data4 = {
 
 # download file from cloud to local
 data_download = {
-    "source": "awesome chords.png",
-    "dest": "data_download/cool.png"
+    "source": "cool.png",
+    "dest": "repo/system_user/cool.png"
 }
+
+# copy folder
+data_copy = {
+    "source": "cool.png",
+    "dest": "jokes.png"
+}
+
 
 # directory
 data_dir = {
-    "source": "music",
+    "source": "glory",
     "dest": ""
 }
 
@@ -228,7 +252,7 @@ data_rename = {
 }
 
 data5 = {
-    "source": "data_download/awesome chords.png",
+    "source": "./repo/system_user/data_download/awesome_chords.png",
     "dest": "awesome chords.png"
 }
 
@@ -258,7 +282,7 @@ user2 = {
 # # operatioms
 # file_app.uploadFile(data5)
 # file_app.downloadFile(data_download)
-# file_app.copyFile(data_download)
+# file_app.copyFile(data_copy)
 # file_app.uploadFile(data)
 # file_app.deleteFile(data_del)
 # file_app.getFileURL(data_url)

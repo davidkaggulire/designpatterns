@@ -28,9 +28,9 @@ jobs:
           python3 -m venv venv
           source venv/bin/activate
 
-      - name: Make directory repo
+      - name: view current directory
         run: |
-          mkdir repo
+          pwd
 
       - name: Make temp directory for phonebook
         run: |
