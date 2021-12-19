@@ -48,7 +48,7 @@ def getStorageService(sys_name):
 
 def test_upload_success(service):
     data = {
-        "source": "./repo/system_user/data_download/awesome_chords.png",
+        "source": "repo/system_user/data_download/awesome_chords.png",
         "dest": "awesome_chords.png"
     }
     output = service.uploadFile(data)
@@ -68,7 +68,7 @@ def test_upload_fail(service):
 
 def test_download_success(service):
     data = {
-        "source": "./repo/system_user/data_download/awesome_chords.png",
+        "source": "repo/system_user/data_download/awesome_chords.png",
         "dest": "awesome_chords.png"
     }
     data_download = {
@@ -93,7 +93,7 @@ def test_download_fail(service):
 
 def test_delete_file_success(service):
     data = {
-        "source": "./repo/system_user/data_download/awesome_chords.png",
+        "source": "repo/system_user/data_download/awesome_chords.png",
         "dest": "sample.png"
     }
 
@@ -119,7 +119,7 @@ def test_delete_file_fail(service):
 
 def test_get_file_url_success(service):
     data = {
-        "source": "./repo/system_user/data_download/awesome_chords.png",
+        "source": "repo/system_user/data_download/awesome_chords.png",
         "dest": "awesome_chords.png"
     }
     data_url = {
@@ -144,7 +144,7 @@ def test_get_file_url_fail(service):
 
 def test_copy_file_success(service):
     data = {
-        "source": "./repo/system_user/data_download/awesome_chords.png",
+        "source": "repo/system_user/data_download/awesome_chords.png",
         "dest": "awesome_chords.png"
     }
     data_download = {
@@ -224,7 +224,7 @@ def test_delete_directory_success(service):
 
 def test_delete_directory_fail(service):
     data = {
-        "source": "./repo/system_user/data_download/awesome_chords.png",
+        "source": "repo/system_user/data_download/awesome_chords.png",
         "dest": "games/football.png"
     }
     data_dir = {
@@ -239,7 +239,7 @@ def test_delete_directory_fail(service):
 
 def test_rename_file_success(service):
     data = {
-        "source": "./repo/system_user/data_download/awesome_chords.png",
+        "source": "repo/system_user/data_download/awesome_chords.png",
         "dest": "awesome_chords.png"
     }
     data_rename = {
@@ -264,7 +264,7 @@ def test_rename_file_fail(service):
 
 def test_check_file_exists_success(service):
     data = {
-        "source": "./repo/system_user/data_download/awesome_chords.png",
+        "source": "repo/system_user/data_download/awesome_chords.png",
         "dest": "awesome_chords.png"
     }
     data_download = {
